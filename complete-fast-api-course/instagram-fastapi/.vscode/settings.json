@@ -1,0 +1,19 @@
+{
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.formatOnType": true
+  },
+  "isort.args": [
+    "--profile",
+    "black"
+  ],
+  "black-formatter.args": [
+    "--config",
+    "pyproject.toml"
+  ],
+}

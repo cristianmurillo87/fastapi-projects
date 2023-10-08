@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  fastapi:
+    build: .
+    container_name: 'fastapi-course'
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/fastapi-app
+

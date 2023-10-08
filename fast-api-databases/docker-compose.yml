@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: fast-api-postgres
+    restart: always
+    image: postgres:15.4
+    env_file:
+      - './env/postgres.env'
+    ports:
+      - "5432:5432"
+
+  mongodb:
+    container_name: fast-api-mongodb
+    image: mongo:6.0.10
+    restart: always
+    ports:
+      - "27017:27017"
+    env_file:
+      - './env/mongo.env'
+
+  mongodb-express:
+    container_name: fast-api-express-mongodb
+    image: mongo-express:1.0.0-20-alpine3.18
+    ports:
+      - "8081:8081"
+    env_file:
+      - './env/mongo.env'
+    depends_on:
+      - mongodb
+
+  fastapi:
+    container_name: fast-api-app
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mongodb
+      - postgres
+    env_file:
+      - "./env/app.local.env"
+    volumes:
+      - ./:/usr/src/app/app
+    ports:
+      - "8000:8000"

@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  redis:
+    container_name: redis
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - REDIS_ARGS=--loglevel warning --requirepass testingredisforthefirsttime
+    ports:
+      - '6379:6379'
+      - '8001:8001'
+    volumes:
+      - ./redis/local-data:/data
+    networks:
+      - test_network
+
+  fastapi:
+    container_name: fastapi-backend
+    build:
+      context: ./fast-api
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./fast-api/app:/fastapi/app
+    depends_on:
+      - redis
+    networks:
+      - test_network
+
+networks:
+  test_network:
