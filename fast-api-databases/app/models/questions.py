@@ -1,9 +1,8 @@
 from typing import List
 
+from app.config.databases.postgres import Base
 from pydantic import BaseModel
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-
-from app.config.databases.postgres import Base
 
 
 class ChoiceBase(BaseModel):
@@ -14,6 +13,7 @@ class ChoiceBase(BaseModel):
 class QuestionBase(BaseModel):
     question_text: str
     choices: List[ChoiceBase]
+    user_id: int
 
 
 class Questions(Base):
@@ -21,6 +21,7 @@ class Questions(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     question_text = Column(String, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
 
 
 class Choices(Base):
