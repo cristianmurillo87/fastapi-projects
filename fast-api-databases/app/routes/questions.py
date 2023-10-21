@@ -1,12 +1,7 @@
-from typing import Annotated
-
-from app.config.databases.postgres import get_db
 from app.models.questions import Choices, QuestionBase, Questions
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from app.utils.dependencies import db_dependency
+from fastapi import APIRouter, HTTPException
 from starlette import status
-
-db_dependency = Annotated[Session, Depends(get_db)]
 
 router = APIRouter(prefix="/questions", tags=["Questions"])
 
