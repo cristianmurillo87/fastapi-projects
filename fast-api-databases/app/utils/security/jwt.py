@@ -7,8 +7,10 @@ _JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 _JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
 
 
-def create_access_token(username: str, user_id: str, expires_delta: timedelta):
-    encode = dict(sub=username, id=user_id)
+def create_access_token(
+    username: str, user_id: str, role: str, expires_delta: timedelta
+):
+    encode = dict(sub=username, id=user_id, role=role)
     expires = datetime.utcnow() + expires_delta
     encode.update(dict(exp=expires))
     return jwt.encode(encode, key=_JWT_SECRET_KEY, algorithm=_JWT_ALGORITHM)
